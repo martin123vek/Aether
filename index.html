@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aether – monitor systému pre macOS</title>
+  <meta name="description" content="Aether je ľahký monitor systému pre Mac: CPU, RAM, sieť, disk, pamäťový tlak, história výkonu, mini režim, benchmark a inteligentné upozornenia.">
+  <link rel="icon" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#top">
+    <img src="icon.png" alt="" width="28" height="28">
+    <span>Aether</span>
+  </a>
+  <nav class="nav-links" aria-label="Hlavná navigácia" data-i18n-aria="nav_aria">
+    <a href="#funkcie" data-i18n="nav_features">Funkcie</a>
+    <a href="#vzhlad" data-i18n="nav_look">Vzhľad</a>
+    <a href="#otazky" data-i18n="nav_faq">Otázky</a>
+  </nav>
+  <div class="nav-actions">
+    <select class="lang-select" id="langSelect" aria-label="Jazyk stránky" data-i18n-aria="lang_label"></select>
+    <button class="icon-btn" id="themeToggle" type="button" aria-label="Prepnúť svetlú a tmavú tému" data-i18n-aria="theme_label">◐</button>
+    <a class="btn btn-small" href="Aether.zip" download data-i18n="nav_download">Stiahnuť</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <p class="eyebrow" data-i18n="hero_eyebrow">Monitor systému pre macOS</p>
+    <h1 data-i18n="hero_title">Vidíš, čo tvoj Mac práve robí.</h1>
+    <p class="lead" data-i18n="hero_lead">
+      Aether sleduje CPU, pamäť, sieť a disk v reálnom čase, pamätá si výkon za posledných 7 dní
+      a keď dochádza RAM, povie ti aj to, ktorá aplikácia za to môže.
+    </p>
+    <div class="hero-actions">
+      <a class="btn" href="Aether.zip" download data-i18n="hero_download">Stiahnuť pre macOS</a>
+      <a class="btn btn-ghost" href="#funkcie" data-i18n="hero_more">Čo všetko vie</a>
+    </div>
+    <p class="note" data-i18n="hero_note">Zadarmo · Apple Silicon · 78 MB</p>
+
+    <div class="stage">
+      <div class="window" aria-label="Ukážka okna aplikácie Aether so simulovanými dátami" data-i18n-aria="demo_aria">
+        <div class="titlebar">
+          <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+          <span class="titlebar-text" data-i18n="win_title">Aether – monitor systému</span>
+        </div>
+        <div class="tabs" id="demoTabs">
+          <span class="tab is-active">Prehľad</span>
+          <span class="tab">Procesy</span>
+          <span class="tab">Pamäť</span>
+          <span class="tab">História</span>
+          <span class="tab">Benchmark</span>
+          <span class="tab">Upozornenia</span>
+          <span class="tab">Nastavenia</span>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="card-title">CPU</div>
+            <div class="card-value" id="cpuValue">–</div>
+            <div class="card-sub" data-i18n="demo_cores">8 jadier</div>
+            <canvas class="graph" id="cpuGraph"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-title">RAM</div>
+            <div class="card-value" id="ramValue">–</div>
+            <div class="card-sub" id="ramSub">–</div>
+            <canvas class="graph" id="ramGraph"></canvas>
+          </div>
+          <div class="card">
+            <div class="card-title"><span data-i18n="card_net">Sieť</span>
+              <span class="legend"><i class="lg lg-accent"></i><span data-i18n="legend_down">príjem</span> <i class="lg lg-pink"></i><span data-i18n="legend_up">odosielanie</span></span>
+            </div>
+            <div class="card-value" id="netValue">–</div>
+            <div class="card-sub" id="netSub">–</div>
+            <canvas class="graph" id="netGraph"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini" aria-label="Ukážka mini režimu" data-i18n-aria="mini_aria">
+        <div class="mini-head"><span>AETHER</span><span class="mini-icons">⇧ ⤢</span></div>
+        <div class="mini-row"><span>CPU</span><b id="miniCpu">–</b><canvas id="miniCpuSpark"></canvas></div>
+        <div class="mini-row"><span>RAM</span><b id="miniRam">–</b><canvas id="miniRamSpark"></canvas></div>
+        <div class="mini-net" id="miniNet">–</div>
+      </div>
+    </div>
+    <p class="note" data-i18n="demo_note">Ukážka beží na simulovaných dátach.</p>
+  </section>
+
+  <section class="section" id="funkcie">
+    <h2 data-i18n="feat_title">Čo všetko vie</h2>
+    <p class="section-lead" data-i18n="feat_lead">Sedem kariet v jednom okne. Bez účtu, bez internetu, všetko ostáva v tvojom Macu.</p>
+
+    <div class="features">
+      <article class="feature reveal">
+        <span class="feature-tag tag-accent">Prehľad</span>
+        <h3>Všetko dôležité naživo</h3>
+        <p>CPU aj po jednotlivých jadrách, RAM, rýchlosť disku a siete. Každý graf ukazuje minimum, priemer a maximum a interval obnovy si nastavíš od 1 do 10 sekúnd.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-violet">História</span>
+        <h3>Výkon za hodinu, deň aj týždeň</h3>
+        <p>Aether si ukladá priemernú a maximálnu záťaž do lokálnej databázy. Pozrieš si posledných 1 h, 24 h alebo 7 dní a report vyexportuješ do CSV alebo HTML.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-orange">Pamäť</span>
+        <h3>Pamäťový tlak, nie len percentá</h3>
+        <p>Úroveň tlaku priamo zo systému macOS, swap, komprimovaná pamäť a rebríček aplikácií, ktoré berú najviac RAM. Hodí sa najmä na Macu s 8 GB.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-green">Mini režim</span>
+        <h3>Malé okno popri hre či kóde</h3>
+        <p>Kompaktný panel s CPU, RAM a sieťou, ktorý presunieš kamkoľvek. S prepínačom „Vždy navrchu“ ostane viditeľný nad ostatnými oknami.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-pink">Upozornenia</span>
+        <h3>Povie aj prečo</h3>
+        <p>Nielen „RAM je na 90 %“. Upozornenie vymenuje aplikácie s najväčšou spotrebou a napíše, či ich spotreba rastie. Vie zachytiť aj proces, ktorý si pamäť postupne priberá.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-accent">Benchmark</span>
+        <h3>Zmeraj si výkon</h3>
+        <p>Asi šesťsekundový test jedného jadra, všetkých jadier a priepustnosti pamäte. Výsledky sa ukladajú s poznámkou, takže porovnáš stav pred reštartom a po ňom.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-violet">macOS</span>
+        <h3>Doma v menu bare</h3>
+        <p>Ikona v menu bare ukazuje záťaž CPU a RAM aj pri zatvorenom okne. Aether sa vie spúšťať po prihlásení a posiela natívne upozornenia macOS.</p>
+      </article>
+      <article class="feature reveal">
+        <span class="feature-tag tag-green">Procesy</span>
+        <h3>Nájdi a ukonči</h3>
+        <p>Zoznam procesov s vyhľadávaním podľa názvu alebo PID a triedením podľa CPU či RAM. Zaseknutú aplikáciu ukončíš jedným tlačidlom.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" id="vzhlad">
+    <div class="split">
+      <div>
+        <h2 data-i18n="look_title">Vyzerá tak, ako chceš</h2>
+        <p class="section-lead" data-i18n="look_lead">Tmavá alebo svetlá téma, prípadne podľa systému. Farbu rozhrania si vyberieš zo šiestich pripravených alebo si namiešaš vlastnú.</p>
+        <p class="pick-label" data-i18n="look_pick">Vyskúšaj si to rovno na tejto stránke:</p>
+        <div class="swatches" id="swatches" role="group" aria-label="Farba rozhrania" data-i18n-aria="swatches_aria"></div>
+      </div>
+      <ul class="facts">
+        <li><b>5 jazykov</b><span>slovenčina, angličtina, čeština, poľština, španielčina</span></li>
+        <li><b>3 témy</b><span>tmavá, svetlá alebo podľa systému</span></li>
+        <li><b>7 dní</b><span>histórie výkonu uloženej v tvojom Macu</span></li>
+        <li><b>0 účtov</b><span>žiadna registrácia, žiadne odosielanie dát</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="otazky">
+    <h2 data-i18n="faq_title">Časté otázky</h2>
+    <div class="faq">
+      <details>
+        <summary>Mac mi appku nechce otvoriť. Čo s tým?</summary>
+        <p>Aether nie je podpísaný vývojárskym certifikátom Apple, takže ho macOS pri prvom spustení zablokuje. Klikni na <b>Aether.app</b> pravým tlačidlom, zvoľ <b>Otvoriť</b> a potvrď. Stačí to urobiť raz.</p>
+      </details>
+      <details>
+        <summary>Na akých Macoch funguje?</summary>
+        <p>Stiahnuteľná verzia je zostavená pre Macy s čipom Apple Silicon (M1 a novšie).</p>
+      </details>
+      <details>
+        <summary>Odosiela Aether niekam moje dáta?</summary>
+        <p>Nie. História výkonu aj výsledky benchmarkov sa ukladajú len do databázy v tvojom Macu a aplikácia sa na internet nepripája.</p>
+      </details>
+      <details>
+        <summary>Prečo nevidím teplotu procesora?</summary>
+        <p>macOS teplotné senzory bežným aplikáciám nesprístupňuje, preto je karta Teplota na Macu bez údajov.</p>
+      </details>
+      <details>
+        <summary>Zatvoril som okno a appka stále beží.</summary>
+        <p>To je zámer – Aether ostáva v menu bare, aby mohol zbierať históriu a posielať upozornenia. Úplne ho ukončíš cez Cmd+Q alebo položkou „Ukončiť“ v menu ikony. V Nastaveniach sa to dá vypnúť.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta">
+    <img src="icon.png" alt="" width="72" height="72">
+    <h2 data-i18n="cta_title">Stiahni si Aether</h2>
+    <p data-i18n="cta_text">Rozbaľ ZIP a presuň Aether.app do priečinka Aplikácie.</p>
+    <a class="btn" href="Aether.zip" download data-i18n="cta_btn">Stiahnuť pre macOS · 78 MB</a>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <span data-i18n="foot_text">Aether · monitor systému pre macOS</span>
+  <a href="#top" data-i18n="foot_top">Späť hore ↑</a>
+</footer>
+
+<script src="lang.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
